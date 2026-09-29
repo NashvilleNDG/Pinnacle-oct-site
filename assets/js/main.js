@@ -226,12 +226,37 @@
       var el = document.querySelector(id);
       if (!el) return;
       e.preventDefault();
-      scrollToY(el.getBoundingClientRect().top + window.scrollY - 40);
+      // header hides when scrolling down, so only leave room for it when scrolling up
+      var top = el.getBoundingClientRect().top;
+      scrollToY(top + window.scrollY - (top < 0 ? (header ? header.offsetHeight : 0) : 0));
+      if (history.replaceState) history.replaceState(null, "", id === "#top" ? location.pathname : id);
     });
   });
   document.querySelectorAll("[data-to-top]").forEach(function (b) {
     b.addEventListener("click", function () { scrollToY(0); });
   });
+
+  /* ---------- Menu highlight follows the section in view (one-page mode) ---------- */
+  var spyLinks = Array.prototype.slice.call(document.querySelectorAll('.nav__link[href^="#"], .mobile-menu__link[href^="#"]'));
+  var spyMap = {
+    top: "#top", company: "#company", services: "#services",
+    "our-design": "#services", "our-procurement": "#services", "our-manufacturing": "#services", "our-installation": "#services",
+    projects: "#projects", contact: "#top", careers: "#careers", team: "#company", founder: "#company"
+  };
+  var spySections = Object.keys(spyMap).map(function (id) { return document.getElementById(id); }).filter(Boolean);
+  if (spyLinks.length && spySections.length && "IntersectionObserver" in window) {
+    var spy = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        var target = spyMap[en.target.id];
+        spyLinks.forEach(function (a) {
+          if (a.getAttribute("href") === target) a.setAttribute("aria-current", "page");
+          else a.removeAttribute("aria-current");
+        });
+      });
+    }, { rootMargin: "-45% 0px -50% 0px" });
+    spySections.forEach(function (sec) { spy.observe(sec); });
+  }
 
   /* ---------- Contact form ----------
      Set the form's `action` to your form endpoint (e.g. Formspree / your CRM)

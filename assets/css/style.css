@@ -1327,7 +1327,7 @@ h1, h2, h3, h4, p { margin: 0; }
 .result__label { position: relative; z-index: 1; }
 
 .why__item { grid-template-columns: auto 1fr; }
-.why__item .why__text { margin-top: 0; font-family: var(--font-display); font-weight: 400; font-size: clamp(1.15rem, 1.6vw, 1.4rem); line-height: 1.45; color: rgba(255,255,255,.9); }
+.why__item .why__text { margin-top: 0; font-family: var(--font-display); font-weight: 400; font-size: clamp(1.15rem, 1.6vw, 1.4rem); line-height: 1.45; color: var(--white); }
 
 .employ { display: grid; grid-template-columns: 5fr 7fr; gap: 2rem 6rem; align-items: start; }
 .employ__body p + p { margin-top: 1.25rem; color: var(--ink-soft); }
@@ -1459,9 +1459,9 @@ h1, h2, h3, h4, p { margin: 0; }
 @media (max-width: 720px) { .contact-list { grid-template-columns: 1fr; } }
 
 /* Portrait source photos: keep the subject in frame when cropped into wide slots */
-img[src*="design"] { object-position: 50% 48%; }
-img[src*="company"] { object-position: 50% 58%; }
-img[src*="manufacturing"] { object-position: 60% 55%; }
+img[src*="/design"] { object-position: 50% 48%; }
+img[src*="/company"] { object-position: 50% 58%; }
+img[src*="/manufacturing"] { object-position: 60% 55%; }
 
 /* ---------- Founder portrait ---------- */
 .founder__portrait { position: relative; margin: 0; max-width: 480px; isolation: isolate; }
@@ -1488,4 +1488,22 @@ img[src*="manufacturing"] { object-position: 60% 55%; }
   .founder__portrait { max-width: 420px; }
   .founder__portrait figcaption { left: 1rem; }
   .founder__portrait::before { inset: 1rem -1rem -1rem 1rem; }
+}
+
+/* ---------- Contact section: white variant ---------- */
+.cta { background: var(--white); color: var(--navy); border-top: 1px solid var(--line); }
+.cta__bg { display: none; }
+.cta .eyebrow { color: var(--blue); }
+.cta__title { color: var(--navy); }
+.cta__title .serif-i { color: var(--blue); }
+.cta .lead { color: var(--ink-soft); }
+.cta .contact-list svg { color: var(--blue); }
+.cta .contact-list span { color: var(--ink-mute); }
+.cta .contact-list a { color: var(--navy); }
+.cta .btn--call::before { background: var(--navy); }
+.cta .btn--call:hover { color: var(--white); }
+.cta .form-card {
+  background: var(--sky-50);
+  border-top: 3px solid var(--blue);
+  box-shadow: 0 0 0 1px var(--line), 0 40px 80px -40px rgba(15, 36, 64, .28);
 }
