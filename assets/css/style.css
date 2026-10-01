@@ -1564,3 +1564,16 @@ img[src*="/manufacturing"] { object-position: 60% 55%; }
 }
 .contrast.is-in .contrast__col--no li,
 .contrast.is-in .contrast__col--yes li { opacity: 1; transform: none; }
+
+/* Diamond bullets instead of 02–09 / 01–06 numbering */
+.list-mark {
+  display: block;
+  width: 9px; height: 9px;
+  margin-top: .62em;
+  background: var(--blue);
+  transform: rotate(45deg);
+}
+.company-list li { grid-template-columns: 1.25rem 1fr; }
+.company-list .list-mark { background: var(--blue-400); }
+.team__list li { grid-template-columns: 1.25rem 1fr; }
+.team__list li span.list-mark { padding: 0; }
