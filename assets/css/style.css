@@ -1547,3 +1547,20 @@ img[src*="/manufacturing"] { object-position: 60% 55%; }
   .why { align-items: start; }
   .why__media { position: sticky; top: calc(var(--header-h) + 1.5rem); }
 }
+
+/* "No…" list: plain readable statements (no strike-through) */
+.contrast__col--no li span,
+.contrast.is-in .contrast__col--no li span { background: none !important; }
+.contrast__col--no li { display: flex; gap: .85rem; align-items: baseline; color: var(--navy); }
+.contrast__col--no li::before {
+  content: ""; flex: 0 0 10px; height: 1.5px; background: var(--ink-mute);
+  transform: translateY(-.3em);
+}
+.contrast__col--no li,
+.contrast__col--yes li {
+  opacity: 0; transform: translateY(10px);
+  transition: opacity .8s var(--ease), transform .8s var(--ease);
+  transition-delay: calc(var(--i, 0) * .1s + .2s);
+}
+.contrast.is-in .contrast__col--no li,
+.contrast.is-in .contrast__col--yes li { opacity: 1; transform: none; }
