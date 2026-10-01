@@ -1507,3 +1507,23 @@ img[src*="/manufacturing"] { object-position: 60% 55%; }
   border-top: 3px solid var(--blue);
   box-shadow: 0 0 0 1px var(--line), 0 40px 80px -40px rgba(15, 36, 64, .28);
 }
+
+/* Employment: centred layout */
+.employ { grid-template-columns: 1fr; justify-items: center; text-align: center; max-width: 54rem; margin-inline: auto; gap: 2rem; }
+.employ .h2 { max-width: 20ch; }
+.employ__actions { justify-content: center; }
+
+/* Larger header logo (client: was too small) */
+:root { --header-h: 108px; }
+.brand__logo { height: 78px; }
+.site-header.is-solid { --header-h: 90px; }
+.site-header.is-solid .brand__logo { height: 64px; }
+.footer-brand .brand__logo { height: 84px; }
+@media (max-width: 1024px) {
+  :root { --header-h: 90px; }
+  .site-header.is-solid { --header-h: 78px; }
+}
+@media (max-width: 720px) {
+  .brand__logo { height: 60px; }
+  .site-header.is-solid .brand__logo { height: 52px; }
+}
