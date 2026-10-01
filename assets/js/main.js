@@ -286,6 +286,59 @@
     });
   });
 
+  /* ---------- Gallery lightbox (project pages) ---------- */
+  var lb = document.getElementById("lightbox");
+  var lbItems = Array.prototype.slice.call(document.querySelectorAll("[data-lightbox]"));
+  if (lb && lbItems.length) {
+    var lbImg = lb.querySelector("img"), lbCap = lb.querySelector(".lightbox__caption"), lbCount = lb.querySelector(".lightbox__count");
+    var lbIndex = 0, lbLast = null;
+    function lbShow(i) {
+      lbIndex = (i + lbItems.length) % lbItems.length;
+      var a = lbItems[lbIndex], im = a.querySelector("img");
+      lbImg.src = a.getAttribute("href");
+      lbImg.alt = im ? im.alt : "";
+      lbCap.textContent = im ? im.alt : "";
+      lbCount.textContent = (lbIndex + 1) + " / " + lbItems.length;
+    }
+    function lbOpen(i) {
+      lbLast = document.activeElement;
+      lbShow(i);
+      lb.hidden = false;
+      body.classList.add("lightbox-open");
+      if (lenis) lenis.stop();
+      requestAnimationFrame(function () { lb.classList.add("is-open"); });
+      lb.querySelector(".lightbox__close").focus();
+    }
+    function lbClose() {
+      lb.classList.remove("is-open");
+      body.classList.remove("lightbox-open");
+      if (lenis) lenis.start();
+      setTimeout(function () { lb.hidden = true; }, 300);
+      if (lbLast) lbLast.focus();
+    }
+    lbItems.forEach(function (a, i) {
+      a.addEventListener("click", function (e) { e.preventDefault(); lbOpen(i); });
+    });
+    lb.querySelector(".lightbox__close").addEventListener("click", lbClose);
+    lb.querySelector(".lightbox__nav--prev").addEventListener("click", function () { lbShow(lbIndex - 1); });
+    lb.querySelector(".lightbox__nav--next").addEventListener("click", function () { lbShow(lbIndex + 1); });
+    lb.addEventListener("click", function (e) { if (e.target === lb) lbClose(); });
+    document.addEventListener("keydown", function (e) {
+      if (lb.hidden) return;
+      if (e.key === "Escape") lbClose();
+      else if (e.key === "ArrowLeft") lbShow(lbIndex - 1);
+      else if (e.key === "ArrowRight") lbShow(lbIndex + 1);
+    });
+    var touchX = null;
+    lb.addEventListener("touchstart", function (e) { touchX = e.touches[0].clientX; }, { passive: true });
+    lb.addEventListener("touchend", function (e) {
+      if (touchX === null) return;
+      var dx = e.changedTouches[0].clientX - touchX;
+      if (Math.abs(dx) > 50) lbShow(lbIndex + (dx < 0 ? 1 : -1));
+      touchX = null;
+    });
+  }
+
   /* ---------- Year ---------- */
   document.querySelectorAll("[data-year]").forEach(function (el) { el.textContent = new Date().getFullYear(); });
 })();
