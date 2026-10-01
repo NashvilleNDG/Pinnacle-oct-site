@@ -1764,3 +1764,6 @@ body.lightbox-open { overflow: hidden; }
   .eyebrow--lg { letter-spacing: .18em; gap: .75rem; white-space: nowrap; }
   .eyebrow--lg::before, .eyebrow--lg::after { width: 1.75rem; }
 }
+
+/* Contact (white) is followed by Our Team (paper) — keep a clear divider */
+#team { border-top: 1px solid var(--line); }
