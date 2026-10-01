@@ -1745,3 +1745,22 @@ body.lightbox-open { overflow: hidden; }
   .crumbs > * { white-space: nowrap; }
   .project-hero__tags li { font-size: .8rem; padding: .45rem .85rem; }
 }
+
+/* Larger section headline labels with a rule on both sides (Why Work With Us? / Contact Us) */
+.eyebrow--lg {
+  font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+  font-weight: 500;
+  letter-spacing: .28em;
+  gap: 1.1rem;
+}
+.eyebrow--lg::before,
+.eyebrow--lg::after {
+  content: "";
+  width: clamp(2.5rem, 5vw, 4rem);
+  height: 1px;
+  background: currentColor;
+}
+@media (max-width: 720px) {
+  .eyebrow--lg { letter-spacing: .18em; gap: .75rem; white-space: nowrap; }
+  .eyebrow--lg::before, .eyebrow--lg::after { width: 1.75rem; }
+}
