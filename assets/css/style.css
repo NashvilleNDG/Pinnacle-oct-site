@@ -1539,3 +1539,11 @@ img[src*="/manufacturing"] { object-position: 60% 55%; }
   .intro { grid-template-columns: 1fr 1fr; }
   .svc-row__grid { grid-template-columns: 1fr 1fr; }
 }
+
+/* Why Work With Us photo is landscape too */
+.why__media .img-reveal { aspect-ratio: 4 / 3; }
+@media (min-width: 1025px) { .why { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1025px) {
+  .why { align-items: start; }
+  .why__media { position: sticky; top: calc(var(--header-h) + 1.5rem); }
+}
