@@ -1527,3 +1527,15 @@ img[src*="/manufacturing"] { object-position: 60% 55%; }
   .brand__logo { height: 60px; }
   .site-header.is-solid .brand__logo { height: 52px; }
 }
+
+/* Home section photos are landscape: use 4:3 frames so nothing important is cropped */
+.intro__media .img-reveal,
+.svc-row__media .img-reveal { aspect-ratio: 4 / 3; }
+@media (max-width: 1024px) {
+  .intro__media .img-reveal,
+  .svc-row__media .img-reveal { aspect-ratio: 3 / 2; }
+}
+@media (min-width: 1025px) {
+  .intro { grid-template-columns: 1fr 1fr; }
+  .svc-row__grid { grid-template-columns: 1fr 1fr; }
+}
