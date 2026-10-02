@@ -1767,3 +1767,56 @@ body.lightbox-open { overflow: hidden; }
 
 /* Contact (white) is followed by Our Team (paper) — keep a clear divider */
 #team { border-top: 1px solid var(--line); }
+
+/* ==========================================================================
+   Our Projects — card grid (replaces the sticky stack)
+   ========================================================================== */
+.projects-grid-section { background: var(--navy); color: var(--white); }
+.projects-head { max-width: 46rem; margin: 0 auto clamp(2.5rem, 5vw, 4rem); text-align: center; display: grid; gap: 1.25rem; }
+.projects-head .h2 { color: var(--white); }
+.projects-head .lead { color: rgba(255,255,255,.78); }
+.pgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(14px, 1.6vw, 22px); }
+.pcard {
+  position: relative; display: block; overflow: hidden;
+  aspect-ratio: 4 / 3;
+  border-radius: 10px;
+  background: var(--navy-900);
+  color: var(--white);
+  isolation: isolate;
+  box-shadow: 0 30px 60px -35px rgba(0,0,0,.6);
+}
+.pcard--more { display: none; }
+.pgrid.is-expanded .pcard--more { display: block; }
+.pcard__media { position: absolute; inset: 0; z-index: -2; }
+.pcard__media img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease); }
+.pcard::after {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: linear-gradient(180deg, rgba(8,22,40,0) 35%, rgba(8,22,40,.55) 65%, rgba(8,22,40,.92) 100%);
+  transition: background .6s var(--ease);
+}
+.pcard:hover .pcard__media img { transform: scale(1.06); }
+.pcard--link:hover::after { background: linear-gradient(180deg, rgba(8,22,40,.15) 20%, rgba(8,22,40,.6) 60%, rgba(8,22,40,.95) 100%); }
+.pcard__body { position: absolute; left: 0; right: 0; bottom: 0; padding: clamp(1.25rem, 2vw, 1.75rem); }
+.pcard__title { font-family: var(--font-display); font-weight: 500; font-size: clamp(1.3rem, 1.8vw, 1.6rem); line-height: 1.2; letter-spacing: .01em; }
+.pcard__loc { display: inline-flex; align-items: center; gap: .5rem; margin-top: .55rem; font-size: .95rem; color: rgba(255,255,255,.82); }
+.pcard__loc svg { width: 12px; height: 16px; flex-shrink: 0; }
+.pcard__cta {
+  position: absolute; top: 1.1rem; right: 1.1rem;
+  display: inline-flex; align-items: center; gap: .5rem;
+  padding: .6rem 1rem;
+  font-family: var(--font-display); font-size: .72rem; font-weight: 500; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--navy); background: var(--white); border-radius: 999px;
+  opacity: 0; transform: translateY(-6px);
+  transition: opacity .4s var(--ease), transform .5s var(--ease);
+}
+.pcard--link:hover .pcard__cta, .pcard--link:focus-visible .pcard__cta { opacity: 1; transform: none; }
+.projects-more { display: flex; justify-content: center; margin-top: clamp(2rem, 4vw, 3rem); }
+.projects-more .btn svg { width: 12px; height: 14px; }
+.projects-more [aria-expanded="true"] svg { transform: rotate(180deg); }
+/* the dark Why section follows: keep the two dark sections distinct */
+.projects-grid-section + .section--deep { border-top: 1px solid rgba(255,255,255,.08); }
+@media (max-width: 1024px) { .pgrid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 640px) {
+  .pgrid { grid-template-columns: 1fr; }
+  .pcard__cta { opacity: 1; transform: none; }
+}

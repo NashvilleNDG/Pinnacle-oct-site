@@ -339,6 +339,17 @@
     });
   }
 
+  /* ---------- Our Projects: View More ---------- */
+  document.querySelectorAll("[data-projects-more]").forEach(function (btn) {
+    var grid = btn.closest(".projects-more").previousElementSibling;
+    btn.addEventListener("click", function () {
+      var open = grid.classList.toggle("is-expanded");
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
+      btn.firstChild.nodeValue = open ? "View Less " : "View More ";
+      if (open) grid.querySelectorAll(".pcard--more").forEach(function (c) { c.classList.add("is-in"); });
+    });
+  });
+
   /* ---------- Year ---------- */
   document.querySelectorAll("[data-year]").forEach(function (el) { el.textContent = new Date().getFullYear(); });
 })();
