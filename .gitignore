@@ -1,2 +1,5 @@
 .DS_Store
 .claude/
+# raw project photo uploads (large originals) — the site uses optimized copies in assets/images/work/
+assets/images/projects/*
+!assets/images/projects/crowne-plaza-ft-myers/
