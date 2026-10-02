@@ -1820,3 +1820,5 @@ body.lightbox-open { overflow: hidden; }
   .pgrid { grid-template-columns: 1fr; }
   .pcard__cta { opacity: 1; transform: none; }
 }
+
+.detail-card__list div:last-child { padding-bottom: 0; border-bottom: 0; }
