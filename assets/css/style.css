@@ -1874,3 +1874,5 @@ body.lightbox-open { overflow: hidden; }
 @media (min-width: 1025px) {
   .company-list { grid-auto-flow: column; grid-template-rows: repeat(4, auto); }
 }
+.project-quote--long p { font-size: clamp(1.6rem, 2.6vw, 2.35rem); line-height: 1.25; }
+.project-overview .project-quote + .project-feature { margin-top: clamp(2rem, 3.5vw, 3rem); }
