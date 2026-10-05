@@ -241,7 +241,7 @@
   var spyMap = {
     top: "#top", company: "#company", services: "#services",
     "our-design": "#services", "our-procurement": "#services", "our-manufacturing": "#services", "our-installation": "#services",
-    projects: "#projects", contact: "#top", careers: "#careers", team: "#company", founder: "#company"
+    projects: "#projects", contact: "#top", careers: "#careers", team: "#team", founder: "#team"
   };
   var spySections = Object.keys(spyMap).map(function (id) { return document.getElementById(id); }).filter(Boolean);
   if (spyLinks.length && spySections.length && "IntersectionObserver" in window) {

@@ -1838,3 +1838,10 @@ body.lightbox-open { overflow: hidden; }
   -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
 }
 .more-projects .pcard { box-shadow: 0 30px 60px -40px rgba(15,36,64,.55); }
+
+/* Nav has six items now: never wrap labels; use the compact menu a little earlier */
+.nav__link { white-space: nowrap; }
+@media (max-width: 1100px) {
+  .nav, .header-cta { display: none; }
+  .menu-toggle { display: block; }
+}
