@@ -16,7 +16,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Cormorant+Garamond:ital,wght@1,500;1,600&family=Inter:wght@400;500;600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=1791233129">
+<link rel="stylesheet" href="assets/css/style.css?v=1792785680">
 </head>
 <body>
 <script>try{if(sessionStorage.getItem("ps-intro")==="1")document.documentElement.classList.add("no-intro")}catch(e){}</script>
@@ -201,10 +201,17 @@
       <div class="form-card" data-reveal style="--d:.15s">
         <h3>Start The Conversation</h3>
         <p>Let’s have a no-cost, no-obligation discussion about your property, your priorities, and your next FF&amp;E project.</p>
-        <form class="form" action="#" method="post" data-contact novalidate>
-          <div class="field"><input id="c-name" name="name" type="text" placeholder=" " autocomplete="name" required><label for="c-name">Name</label></div>
-          <div class="field"><input id="c-title" name="title_company" type="text" placeholder=" " autocomplete="organization-title"><label for="c-title">Title &amp; Company</label></div>
-          <div class="field"><input id="c-property" name="property" type="text" placeholder=" "><label for="c-property">Property Name &amp; Location</label></div>
+        <form class="form" action="https://formsubmit.co/ajax/jallen@pinnaclesouth.net" method="post" data-contact novalidate>
+          <input type="hidden" name="_cc" value="THobbs@pinnaclesouth.net,pmathon@mathonpr.com">
+          <input type="hidden" name="_subject" value="New website inquiry – Pinnacle South">
+          <input type="hidden" name="_template" value="table">
+          <input type="text" name="_honey" class="form__hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <div class="field"><input id="c-name" name="Name" type="text" placeholder=" " autocomplete="name" required><label for="c-name">Name *</label></div>
+          <div class="field field--half"><input id="c-email" name="email" type="email" placeholder=" " autocomplete="email" required><label for="c-email">Email *</label></div>
+          <div class="field field--half"><input id="c-phone" name="Phone Number" type="tel" placeholder=" " autocomplete="tel"><label for="c-phone">Phone Number</label></div>
+          <div class="field"><input id="c-property" name="Property Name" type="text" placeholder=" "><label for="c-property">Property Name</label></div>
+          <div class="field"><input id="c-address" name="Property Address" type="text" placeholder=" " autocomplete="street-address"><label for="c-address">Property Address</label></div>
+          <div class="field"><textarea id="c-msg" name="Message" placeholder=" " rows="3"></textarea><label for="c-msg">Message</label></div>
           <div class="form__foot">
             <span></span>
             <button class="btn" type="submit">Start The Conversation <svg class="arrow" width="16" height="12" viewBox="0 0 16 12" fill="none" aria-hidden="true"><path d="M0 6h14.5M10 1l5 5-5 5" stroke="currentColor" stroke-width="1.4"/></svg></button>
@@ -266,6 +273,6 @@
 </footer>
 
 <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js" async onload="window.dispatchEvent(new Event('lenis-ready'))"></script>
-<script src="assets/js/main.js?v=1791227266" defer></script>
+<script src="assets/js/main.js?v=1792785680" defer></script>
 </body>
 </html>

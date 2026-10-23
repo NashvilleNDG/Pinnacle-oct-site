@@ -1876,3 +1876,6 @@ body.lightbox-open { overflow: hidden; }
 }
 .project-quote--long p { font-size: clamp(1.6rem, 2.6vw, 2.35rem); line-height: 1.25; }
 .project-overview .project-quote + .project-feature { margin-top: clamp(2rem, 3.5vw, 3rem); }
+
+/* Contact form: spam honeypot (hidden from people) */
+.form__hp { position: absolute !important; left: -9999px !important; width: 1px; height: 1px; opacity: 0; }

@@ -273,12 +273,20 @@
         btn.disabled = false;
         status.textContent = ok
           ? "Thank you — a member of the Pinnacle South team will be in touch shortly."
-          : "Something went wrong. Please try again in a moment.";
+          : "Sorry, your message didn’t go through. Please try again, or email info@pinnaclesouth.net.";
         if (ok) form.reset();
       }
       if (action && action !== "#") {
-        fetch(action, { method: "POST", body: new FormData(form), headers: { Accept: "application/json" } })
-          .then(function (r) { done(r.ok); })
+        var data = {};
+        new FormData(form).forEach(function (v, k) { data[k] = v; });
+        if (data._honey) { done(true); return; }   // bot filled the hidden field
+        fetch(action, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify(data)
+        })
+          .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { r: r, j: j }; }); })
+          .then(function (res) { done(res.r.ok && String(res.j.success) === "true"); })
           .catch(function () { done(false); });
       } else {
         setTimeout(function () { done(true); }, 600);
