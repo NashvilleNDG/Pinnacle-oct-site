@@ -280,6 +280,13 @@
         var data = {};
         new FormData(form).forEach(function (v, k) { data[k] = v; });
         if (data._honey) { done(true); return; }   // bot filled the hidden field
+        // Submission time in US Central Time (FormSubmit's own footer is always UTC)
+        try {
+          data["Submitted (Central Time)"] = new Intl.DateTimeFormat("en-US", {
+            timeZone: "America/Chicago", weekday: "short", year: "numeric", month: "short",
+            day: "numeric", hour: "numeric", minute: "2-digit", timeZoneName: "short"
+          }).format(new Date());
+        } catch (err) {}
         fetch(action, {
           method: "POST",
           headers: { "Content-Type": "application/json", Accept: "application/json" },
