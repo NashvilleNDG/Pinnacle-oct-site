@@ -258,17 +258,24 @@
     spySections.forEach(function (sec) { spy.observe(sec); });
   }
 
-  /* ---------- Contact form ----------
-     Set the form's `action` to your form endpoint (e.g. Formspree / your CRM)
-     and submissions will be posted there via fetch. */
+  /* ---------- Contact form (EmailJS) ----------
+     The form posts to the EmailJS REST API using the IDs in its data-emailjs-* attributes.
+     Recipients, subject and layout live in the EmailJS template. */
+  var pageLoadedAt = Date.now();
+  function centralTime() {
+    try {
+      return new Intl.DateTimeFormat("en-US", {
+        timeZone: "America/Chicago", weekday: "short", year: "numeric", month: "short",
+        day: "numeric", hour: "numeric", minute: "2-digit", timeZoneName: "short"
+      }).format(new Date());
+    } catch (err) { return new Date().toString(); }
+  }
   document.querySelectorAll("form[data-contact]").forEach(function (form) {
     var status = form.querySelector(".form__status");
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       if (!form.checkValidity()) { form.reportValidity(); return; }
       var btn = form.querySelector("button[type=submit]");
-      var action = form.getAttribute("action");
-      btn.disabled = true;
       function done(ok) {
         btn.disabled = false;
         status.textContent = ok
@@ -276,28 +283,35 @@
           : "Sorry, your message didn’t go through. Please try again, or email info@pinnaclesouth.net.";
         if (ok) form.reset();
       }
-      if (action && action !== "#") {
-        var data = {};
-        new FormData(form).forEach(function (v, k) { data[k] = v; });
-        if (data._honey) { done(true); return; }   // bot filled the hidden field
-        // Submission time in US Central Time (FormSubmit's own footer is always UTC)
-        try {
-          data["Submitted (Central Time)"] = new Intl.DateTimeFormat("en-US", {
-            timeZone: "America/Chicago", weekday: "short", year: "numeric", month: "short",
-            day: "numeric", hour: "numeric", minute: "2-digit", timeZoneName: "short"
-          }).format(new Date());
-        } catch (err) {}
-        fetch(action, {
-          method: "POST",
-          headers: { "Content-Type": "application/json", Accept: "application/json" },
-          body: JSON.stringify(data)
+      var fd = new FormData(form);
+      // spam traps: hidden field filled, or submitted faster than a person could type
+      if (fd.get("website") || Date.now() - pageLoadedAt < 3000) { done(true); return; }
+      var service = form.getAttribute("data-emailjs-service");
+      if (!service) { done(false); return; }
+      btn.disabled = true;
+      status.textContent = "Sending…";
+      var params = {
+        name: fd.get("name") || "",
+        email: fd.get("email") || "",
+        phone: fd.get("phone") || "",
+        property_name: fd.get("property_name") || "",
+        property_address: fd.get("property_address") || "",
+        message: fd.get("message") || "",
+        submitted_ct: centralTime(),
+        page_url: location.href
+      };
+      fetch("https://api.emailjs.com/api/v1.0/email/send", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          service_id: service,
+          template_id: form.getAttribute("data-emailjs-template"),
+          user_id: form.getAttribute("data-emailjs-key"),
+          template_params: params
         })
-          .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { r: r, j: j }; }); })
-          .then(function (res) { done(res.r.ok && String(res.j.success) === "true"); })
-          .catch(function () { done(false); });
-      } else {
-        setTimeout(function () { done(true); }, 600);
-      }
+      })
+        .then(function (r) { done(r.ok); })
+        .catch(function () { done(false); });
     });
   });
 
