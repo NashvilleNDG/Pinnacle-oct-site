@@ -1879,3 +1879,9 @@ body.lightbox-open { overflow: hidden; }
 
 /* Contact form: spam honeypot (hidden from people) */
 .form__hp { position: absolute !important; left: -9999px !important; width: 1px; height: 1px; opacity: 0; }
+
+/* Contact form paused notice */
+.form-paused { margin-top: 1.75rem; }
+.form-paused p { font-size: 1.02rem; color: var(--navy); line-height: 1.6; }
+.form-paused__actions { margin-top: 1.5rem; display: flex; flex-wrap: wrap; gap: .75rem; }
+.form-paused__actions .btn svg { width: 18px; height: 18px; }
