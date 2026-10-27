@@ -79,7 +79,13 @@ const FIELDS = [
   ["page_url", "Page"]
 ];
 
-// simple per-IP limit: 5 submissions per 10 minutes
+// simple per-visitor limit: 5 verified submissions per 10 minutes.
+// pinnaclesouth.net reaches this server through the static site's rewrite (an extra
+// proxy hop), so key on the first X-Forwarded-For entry — the visitor's own address.
+function visitorIp(req) {
+  const xff = String(req.headers["x-forwarded-for"] || "").split(",")[0].trim();
+  return xff || req.ip;
+}
 const hits = new Map();
 function rateLimited(ip) {
   const now = Date.now(), windowMs = 10 * 60 * 1000;
@@ -101,7 +107,6 @@ app.post("/api/contact", express.json({ limit: "20kb" }), async function (req, r
   const body = req.body || {};
   // spam trap: hidden "website" field is only filled by bots — pretend success
   if (body.website) return res.json({ ok: true });
-  if (rateLimited(req.ip)) return res.status(429).json({ ok: false, error: "Too many requests" });
 
   const data = {};
   FIELDS.forEach(function (f) { data[f[0]] = clean(body[f[0]], f[0] === "message" ? 5000 : 300); });
@@ -113,6 +118,8 @@ app.post("/api/contact", express.json({ limit: "20kb" }), async function (req, r
     console.warn("Contact form: ALTCHA check failed:", altchaError);
     return res.status(403).json({ ok: false, error: "verification" });
   }
+  // counted only after the robot check, so rejected bot attempts can't lock out visitors
+  if (rateLimited(visitorIp(req))) return res.status(429).json({ ok: false, error: "Too many requests" });
   if (!SMTP_USER || !SMTP_PASS || !MAIL_TO) {
     console.error("Contact form: SMTP_USER, SMTP_PASS and MAIL_TO must be set");
     return res.status(500).json({ ok: false, error: "Mail is not configured" });
