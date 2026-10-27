@@ -16,7 +16,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Cormorant+Garamond:ital,wght@1,500;1,600&family=Inter:wght@400;500;600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=1793042404">
+<link rel="stylesheet" href="assets/css/style.css?v=1793200003">
 </head>
 <body>
 <script>try{if(sessionStorage.getItem("ps-intro")==="1")document.documentElement.classList.add("no-intro")}catch(e){}</script>
@@ -270,7 +270,7 @@
           <div class="field"><input id="c-address" name="property_address" type="text" placeholder=" " autocomplete="street-address"><label for="c-address">Property Address</label></div>
           <div class="field"><textarea id="c-msg" name="message" placeholder=" " rows="3"></textarea><label for="c-msg">Message</label></div>
           <div class="form__foot">
-            <span></span>
+            <altcha-widget challenge="/api/altcha/challenge" auto="onfocus" type="checkbox"></altcha-widget>
             <button class="btn" type="submit">Start The Conversation <svg class="arrow" width="16" height="12" viewBox="0 0 16 12" fill="none" aria-hidden="true"><path d="M0 6h14.5M10 1l5 5-5 5" stroke="currentColor" stroke-width="1.4"/></svg></button>
           </div>
           <p class="form__status" role="status" aria-live="polite"></p>
@@ -330,6 +330,7 @@
 </footer>
 
 <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js" async onload="window.dispatchEvent(new Event('lenis-ready'))"></script>
-<script src="assets/js/main.js?v=1793043927" defer></script>
+<script src="/assets/js/altcha.min.js?v=3.5.0" type="module" async></script>
+<script src="assets/js/main.js?v=1793200002" defer></script>
 </body>
 </html>

@@ -270,24 +270,57 @@
       }).format(new Date());
     } catch (err) { return new Date().toString(); }
   }
+  // ALTCHA "I'm not a robot" check: resolves with the solved payload, verifying first if needed
+  function altchaPayload(widget) {
+    if (!widget || typeof widget.verify !== "function") return Promise.reject(new Error("widget not loaded"));
+    var input = widget.querySelector("input[name=altcha]");
+    if (widget.getState() === "verified" && input && input.value) return Promise.resolve(input.value);
+    return new Promise(function (resolve, reject) {
+      var timer = setTimeout(function () { finish(null); }, 20000);
+      function finish(payload) {
+        clearTimeout(timer);
+        widget.removeEventListener("statechange", onState);
+        if (payload) resolve(payload); else reject(new Error("not verified"));
+      }
+      function onState(ev) {
+        var s = ev.detail && ev.detail.state;
+        if (s === "verified") finish((ev.detail && ev.detail.payload) || (widget.querySelector("input[name=altcha]") || {}).value);
+        else if (s === "error" || s === "expired") finish(null);
+      }
+      widget.addEventListener("statechange", onState);
+      if (widget.getState() !== "verifying") widget.verify();
+    });
+  }
   document.querySelectorAll("form[data-contact]").forEach(function (form) {
     var status = form.querySelector(".form__status");
+    var widget = form.querySelector("altcha-widget");
     form.addEventListener("submit", function (e) {
       e.preventDefault();
-      if (!form.checkValidity()) { form.reportValidity(); return; }
+      // validate the visitor's fields; the ALTCHA checkbox is "required" but verifies itself below
+      var invalid = Array.prototype.find.call(form.elements, function (el) {
+        return el.willValidate && !el.closest("altcha-widget") && !el.checkValidity();
+      });
+      if (invalid) { invalid.reportValidity(); return; }
       var btn = form.querySelector("button[type=submit]");
-      function done(ok) {
+      function done(ok, msg) {
         btn.disabled = false;
-        status.textContent = ok
+        status.textContent = msg || (ok
           ? "Thank you — a member of the Pinnacle South team will be in touch shortly."
-          : "Sorry, your message didn’t go through. Please try again, or email info@pinnaclesouth.net.";
+          : "Sorry, your message didn’t go through. Please try again, or email info@pinnaclesouth.net.");
         if (ok) form.reset();
+        if (widget && typeof widget.reset === "function") widget.reset(); // each puzzle works only once
       }
+      var notRobot = "Please confirm you’re not a robot and try again.";
       var fd = new FormData(form);
       // spam traps: hidden field filled, or submitted faster than a person could type
       if (fd.get("website") || Date.now() - pageLoadedAt < 3000) { done(true); return; }
       btn.disabled = true;
-      status.textContent = "Sending…";
+      status.textContent = "Verifying…";
+      altchaPayload(widget).then(function (altcha) {
+        status.textContent = "Sending…";
+        return send(altcha);
+      }, function () { done(false, notRobot); });
+      function send(altcha) {
       var params = {
         name: fd.get("name") || "",
         email: fd.get("email") || "",
@@ -296,15 +329,17 @@
         property_address: fd.get("property_address") || "",
         message: fd.get("message") || "",
         submitted_ct: centralTime(),
-        page_url: location.href
+        page_url: location.href,
+        altcha: altcha
       };
-      fetch("/api/contact", {
+      return fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(params)
       })
-        .then(function (r) { done(r.ok); })
+        .then(function (r) { done(r.ok, r.status === 403 ? notRobot : null); })
         .catch(function () { done(false); });
+      }
     });
   });
 
