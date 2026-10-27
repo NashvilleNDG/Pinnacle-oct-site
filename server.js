@@ -149,10 +149,6 @@ app.get("/api/altcha/challenge", function (req, res, next) {
 });
 
 /* ---------- Static site ---------- */
-// the ALTCHA widget script, served from the installed npm package
-app.get("/assets/js/altcha.min.js", function (req, res) {
-  res.sendFile(path.join(__dirname, "node_modules/altcha/dist/main/altcha.min.js"));
-});
 // never serve server-side files
 app.use(function (req, res, next) {
   if (/^\/(server\.js|package(-lock)?\.json|node_modules(\/|$)|\.env)/i.test(req.path)) return res.status(404).end();
