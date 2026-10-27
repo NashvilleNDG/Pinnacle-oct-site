@@ -1,0 +1,16 @@
+{
+  "name": "pinnacle-south-site",
+  "private": true,
+  "description": "Pinnacle South website with SMTP contact form",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=20.12"
+  },
+  "dependencies": {
+    "express": "^4.22.3",
+    "nodemailer": "^6.10.1"
+  }
+}

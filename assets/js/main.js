@@ -258,9 +258,9 @@
     spySections.forEach(function (sec) { spy.observe(sec); });
   }
 
-  /* ---------- Contact form (EmailJS) ----------
-     The form posts to the EmailJS REST API using the IDs in its data-emailjs-* attributes.
-     Recipients, subject and layout live in the EmailJS template. */
+  /* ---------- Contact form ----------
+     The form posts JSON to the site's own /api/contact endpoint (server.js),
+     which sends the email by SMTP. Recipients and credentials live in server env vars. */
   var pageLoadedAt = Date.now();
   function centralTime() {
     try {
@@ -286,8 +286,6 @@
       var fd = new FormData(form);
       // spam traps: hidden field filled, or submitted faster than a person could type
       if (fd.get("website") || Date.now() - pageLoadedAt < 3000) { done(true); return; }
-      var service = form.getAttribute("data-emailjs-service");
-      if (!service) { done(false); return; }
       btn.disabled = true;
       status.textContent = "Sending…";
       var params = {
@@ -300,15 +298,10 @@
         submitted_ct: centralTime(),
         page_url: location.href
       };
-      fetch("https://api.emailjs.com/api/v1.0/email/send", {
+      fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          service_id: service,
-          template_id: form.getAttribute("data-emailjs-template"),
-          user_id: form.getAttribute("data-emailjs-key"),
-          template_params: params
-        })
+        body: JSON.stringify(params)
       })
         .then(function (r) { done(r.ok); })
         .catch(function () { done(false); });
