@@ -1928,3 +1928,37 @@ body.lightbox-open { overflow: hidden; }
 .footer-bottom { align-items: center; }
 .footer-credit a { color: var(--white); background: linear-gradient(currentColor, currentColor) left bottom / 0% 1px no-repeat; transition: background-size .5s var(--ease); }
 .footer-credit a:hover { background-size: 100% 1px; }
+
+/* Our Company: centre the heading and lead line on phones only */
+@media (max-width: 720px) {
+  .company-head { text-align: center; justify-items: center; }
+}
+
+/* Service section headings: centred on phones only */
+@media (max-width: 720px) {
+  .svc-row__title { text-align: center; }
+}
+
+/* Why Work With Us: centre the label and heading on phones only */
+@media (max-width: 720px) {
+  .why .eyebrow--lg { display: flex; justify-content: center; }
+  .why .h2 { text-align: center; }
+}
+
+/* Contact Us: centre the left column (label, heading, call button, contact details) on phones only */
+@media (max-width: 720px) {
+  .cta .cta__grid > div:first-child { text-align: center; }
+  .cta .eyebrow--lg { display: flex; justify-content: center; }
+  .cta .cta__actions { justify-content: center; }
+  .cta .contact-list { justify-items: center; }
+  .cta .contact-list li { flex-direction: column; align-items: center; gap: .45rem; }
+  .cta .contact-list svg { margin-top: 0; }
+}
+
+/* Footer: centred on phones only */
+@media (max-width: 720px) {
+  .footer-top { text-align: center; justify-items: center; }
+  .footer-brand { display: flex; flex-direction: column; align-items: center; }
+  .footer-brand p { margin-left: auto; margin-right: auto; }
+  .footer-bottom { flex-direction: column; align-items: center; text-align: center; gap: .9rem; }
+}
