@@ -1923,3 +1923,8 @@ body.lightbox-open { overflow: hidden; }
 .form-paused p { font-size: 1.02rem; color: var(--navy); line-height: 1.6; }
 .form-paused__actions { margin-top: 1.5rem; display: flex; flex-wrap: wrap; gap: .75rem; }
 .form-paused__actions .btn svg { width: 18px; height: 18px; }
+
+/* Footer credit */
+.footer-bottom { align-items: center; }
+.footer-credit a { color: var(--white); background: linear-gradient(currentColor, currentColor) left bottom / 0% 1px no-repeat; transition: background-size .5s var(--ease); }
+.footer-credit a:hover { background-size: 100% 1px; }
